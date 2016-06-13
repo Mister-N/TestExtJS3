@@ -1,0 +1,11 @@
+/bin
+/vendor
+/docs
+/library
+CONTRIBUTING.md
+DEVELOPMENT_README.md
+INSTALL.md
+LICENSE.txt
+README.md
+README-GIT.md
+.idea
