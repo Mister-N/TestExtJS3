@@ -22,6 +22,7 @@ Build date: 2013-04-03 15:07:25
  * Calendar sample code originally written by Brian Moeskau (brian@ext-calendar.com)
  * See additional calendar examples at http://ext-calendar.com
  */
+console.log('test!');
 App = function() {
     return {
         init : function() {
@@ -137,6 +138,7 @@ App = function() {
                         listeners: {
                             'eventclick': {
                                 fn: function(vw, rec, el){
+                                    console.log('eventclick',rec);
                                     this.showEditWindow(rec, el);
                                     this.clearMsg();
                                 },
@@ -150,12 +152,14 @@ App = function() {
                             },
                             'eventadd': {
                                 fn: function(cp, rec){
+                                    console.log('eventclick');
                                     this.showMsg('Event '+ rec.data.Title +' was added');
                                 },
                                 scope: this
                             },
                             'eventupdate': {
                                 fn: function(cp, rec){
+                                    console.log('eventupdate');
                                     this.showMsg('Event '+ rec.data.Title +' was updated');
                                 },
                                 scope: this
