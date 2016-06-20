@@ -32,7 +32,15 @@ var myData = [
         true
     ]
 ];
-store = new Ext.data.ArrayStore({
+var store =  new Ext.data.JsonStore({
+    root: 'results',
+    totalProperty: 'total',
+    idProperty: 'id',
+    remoteSort: true,
+    url: '/resource',
+    //listeners: {
+    //    'load': {fn:function(){ this.select(0); }, scope:this, single:true}
+    //},
     fields: [
         {name: "userID", type: 'int'},
         {name: "name", type: 'string'},
@@ -41,18 +49,28 @@ store = new Ext.data.ArrayStore({
         {name: "email", type: 'string'},
         {name:  "married", type: 'bool'}
     ],
-    addNew:function(){
+    //proxy: new Ext.data.ScriptTagProxy({
+    //    type: 'json',
+    //    //type: 'ajax',
+    //    method: 'GET',
+    //    url: '/resource',
+    //}),
+    addNew:function(){ // TODO дебажить надоть
         var record =  Ext.data.Record.create(this.fields);
         for(i in arguments)
             this.add(new record(arguments[i]));
     }
 });
-store.loadData(myData);
+
+store.load({params:{start:0, limit:25}});
+
+//store3.setDefaultSort('lastpost', 'desc');
+
 
 
 store.addNew({
     "userID": 5,
-    "name": "Вася",
+    "name": "Юра",
     "surname": "Иванов",
     "date": '10/08/1991',
     "email": 'vasiv@mail.ru',
