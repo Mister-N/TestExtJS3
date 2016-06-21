@@ -18,28 +18,51 @@ class ResourceController extends Zend_Controller_Action
 
         echo  json_encode(
 
-               [
-                   'success'=>"true",
-                   'total'=>"20",
-                   'results'=>[
-                       [
-                            "userID"=> 1,
-                            "name"=> "Вася",
-                            "surname"=> "Иванов",
-                            "date"=> '10/08/1991',
-                            "email"=>'vasiv@mail.ru',
-                            "married"=> false
-                        ],[
-                            "userID"=> 2,
-                            "name"=> "Петя ",
-                            "surname"=> "Петров",
-                            "date"=> '10/08/1991',
-                            "email"=>'vasiv@mail.ru',
-                            "married"=> false
+            [
+                'success'=>"true",
+                'total'=>"20",
+                'results'=>[
+                    [
+                        "userID"=> 1,
+                        "name"=> "Вася",
+                        "surname"=> "Иванов",
+                        "date"=> '10/08/1991',
+                        "email"=>'vasiv@mail.ru',
+                        "married"=> false,
+                        "actions"=> [
+                            [
+                                "cls"=> "",
+                                "icon"=> "icon icon-edit",
+                                "title"=> "Update Item",
+                                "action"=> "updateUser",
+                                "button"=> true,
+                                "menu"=> true
+                            ]
                         ]
-                   ]
-               ]
-           ,JSON_UNESCAPED_UNICODE);
+                    ],[
+                        "userID"=> 2,
+                        "name"=> "Петя ",
+                        "surname"=> "Петров",
+                        "date"=> '10/08/1991',
+                        "email"=>'vasiv@mail.ru',
+                        "married"=> false,
+                        "actions"=> [
+                            [
+                                "cls"=> "",
+                                "icon"=> "icon icon-edit",
+                                "title"=> "Update Item",
+                                "action"=> "updateUser",
+                                "button"=> true,
+                                "menu"=> true
+                            ]
+                        ]
+
+                    ]
+                ],
+
+            ]
+            ,JSON_UNESCAPED_UNICODE);
+
 
 //		$pageId = $this->_getParam('pageId');
 
