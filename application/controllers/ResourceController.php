@@ -31,8 +31,8 @@ class ResourceController extends Zend_Controller_Action
                             "married"=> false
                         ],[
                             "userID"=> 2,
-                            "name"=> "Вася",
-                            "surname"=> "Иванов",
+                            "name"=> "Петя ",
+                            "surname"=> "Петров",
                             "date"=> '10/08/1991',
                             "email"=>'vasiv@mail.ru',
                             "married"=> false
