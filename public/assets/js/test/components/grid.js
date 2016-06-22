@@ -120,8 +120,7 @@ Ext.extend(
                             }
                         };
                     }
-                    console.log('this.menu',this.menu)
-                    console.log('options',options)
+
                     this.menu.add({
                         id: options.id || Ext.id()
                         ,text: options.text
@@ -138,6 +137,9 @@ Ext.extend(
             }
             return this.selModel;
         },
+        refresh: function() {
+            this.getStore().reload();
+        }
     }
 );
 //Ext.extend(Test.Panel,Ext.Panel);

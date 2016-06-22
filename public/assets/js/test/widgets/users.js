@@ -9,7 +9,7 @@ Test.UsersGrid = function(config) {
         //autoHeight: true,
         width: '100%',
         fields: [
-            {name: "userID", type: 'int'},
+            {name: "id", type: 'int'},
             {name: "name", type: 'string'},
             {name: "surname", type: 'string'},
             {name: "date",type: 'date', dateFormat: 'n/j h:ia'},
@@ -67,7 +67,7 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
     },
     getTopBar: function (config) {
         return [{
-            text: '<i class="icon icon-plus">&nbsp;Создать',
+            text: '<i class="icon icon-plus">&nbsp;</i>Создать',
             handler: this.createItem,
             scope: this
         }, '->',
@@ -76,7 +76,7 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
         //    name: 'query',
         //    width: 200,
         //    id: config.id + '-search-field',
-        //    emptyText: _('booking_grid_search'),
+        //    emptyText: _('test_grid_search'),
         //    listeners: {
         //        render: {
         //            fn: function (tf) {
@@ -97,12 +97,25 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
         //}
          ];
     },
-    createItem:function(){
-        Ext.Msg.alert('createItem','Hello, World!' );
+    createItem: function (btn, e) {
+        var w = Ext.ComponentMgr.create({
+            xtype: 'test-user-window-create',
+            id: Ext.id(),
+            url : this.config.url,
+            listeners: {
+                success: {
+                    fn: function () {
+                        this.refresh();
+                    }, scope: this
+                }
+            }
+        });
+        w.reset();
+        w.setValues({active: true});
+        w.show(e.target);
     },
     updateUser: function (btn, e, row) {
-        Ext.Msg.alert('updateUser','Hello, World!' );
-        return ;
+
         if (typeof(row) != 'undefined') {
             this.menu.record = row.data;
         }
@@ -110,35 +123,40 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
             return false;
         }
         var id = this.menu.record.id;
+        console.log('id',id);
+        console.log(' this.menu.record', this.menu.record);
 
-        MODx.Ajax.request({
+        var salf = this;
+        Ext.Ajax.request({
             url: this.config.url,
+            method: 'GET',
             params: {
-                action: 'mgr/item/get',
+                actionObj: 'get',
                 id: id
             },
-            listeners: {
-                success: {
-                    fn: function (r) {
-                        var w = MODx.load({
-                            xtype: 'booking-item-window-update',
-                            id: Ext.id(),
-                            record: r,
-                            listeners: {
-                                success: {
-                                    fn: function () {
-                                        this.refresh();
-                                    }, scope: this
-                                }
-                            }
-                        });
-                        w.reset();
-                        w.setValues(r.object);
-                        w.show(e.target);
-                    }, scope: this
-                }
+            success: function(r) {
+                console.log('success salf',salf);
+
+                 var w = Ext.ComponentMgr.create({
+                    xtype: 'test-item-window-update',
+                    url : salf.config.url,
+                    id: Ext.id(),
+                    record: r,
+                    listeners: {
+                        success: {
+                            fn: function () {
+                                console.log('this',this);
+                                this.refresh();
+                            }, scope: salf
+                        }
+                    }
+                });
+                w.reset();
+                w.setValues(Ext.decode(r.responseText).object);
+                w.show(e.target);
             }
         });
+
     },
     _getSelectedIds: function () {
         var ids = [];
@@ -155,5 +173,4 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
     },
 
 });
-//Ext.extend(Test.Panel,Ext.Panel);
 Ext.reg('test-users-grid', Test.UsersGrid);

@@ -35,7 +35,7 @@ Test.panel.Home = function (config) {
         layout: 'anchor',
         /*
          stateful: true,
-         stateId: 'booking-panel-home',
+         stateId: 'test-panel-home',
          stateEvents: ['tabchange'],
          getState:function() {return {activeTab:this.items.indexOf(this.getActiveTab())};},
          */
