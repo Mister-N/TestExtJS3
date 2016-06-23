@@ -46,18 +46,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Занесение объекта соединения c БД в реестр
         Zend_Registry::set('db', $db);
     }
-    public function _initRoute(){
-        $frontController = Zend_Controller_Front::getInstance();
-        $router = $frontController->getRouter();
-
-        $router->addRoute(
-            'resource',
-            new Zend_Controller_Router_Route('resource/:username',
-                array('controller' => 'resource',
-                    'action' => 'index'))
-        );
-
-    }
+//    public function _initRoute(){
+//        $frontController = Zend_Controller_Front::getInstance();
+//        $router = $frontController->getRouter();
+//
+//        $router->addRoute(
+//            'resource',
+//            new Zend_Controller_Router_Route(
+//                'resource/:username',
+//                [
+//                    'controller' => 'resource',
+//                   // 'action' => 'index'
+//                ]
+//            )
+//        );
+//
+//    }
 
 
 }

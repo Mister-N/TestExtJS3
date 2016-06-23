@@ -60,7 +60,7 @@ Ext.extend(Test.Window,Ext.Window,{
         }
         this.fp = this.createForm({
             url: this.config.url
-            ,baseParams: this.config.baseParams || { action: this.config.action || '' }
+            ,baseParams: this.config.baseParams || { actionObj: this.config.action || '' } // TODO параметр action может подхватываться, как экшн контроллера. Надо что-то придумать, чтобы небыло путаницы
             ,items: this.config.fields || []
         });
         var w = this;

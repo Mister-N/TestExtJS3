@@ -21,7 +21,7 @@ Test.UsersGrid = function(config) {
         totalProperty: 'total',
         idProperty: 'id',
         remoteSort: true,
-        url: '/resource',
+        url: '/resource/users',
         columns: [{
             header: 'Имя',
             dataIndex: 'name'

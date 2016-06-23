@@ -48,7 +48,7 @@ Ext.extend(
                     //    type: 'json',
                     //    //type: 'ajax',
                     //    method: 'GET',
-                    //    url: '/resource',
+                    //    url: '/resource/users',
                     //}),
                     addNew:function(){ // TODO дебажить надоть
                         var record =  Ext.data.Record.create(this.fields);

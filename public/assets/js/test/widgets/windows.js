@@ -11,7 +11,7 @@ Test.window.CreateUser = function (config) {
         width: 550,
         autoHeight: true,
         //url: test.config.connector_url,
-        action: 'create',
+        action: 'POST',
         fields: this.getFields(config),
         keys: [{
             key: Ext.EventObject.ENTER, shift: true, fn: function () {
@@ -62,7 +62,7 @@ Test.window.UpdateItem = function (config) {
         title: 'Обновить юзера',
         width: 550,
         autoHeight: true,
-        action: 'update',
+        action: 'PUT',
         fields: this.getFields(config),
         keys: [{
             key: Ext.EventObject.ENTER, shift: true, fn: function () {
