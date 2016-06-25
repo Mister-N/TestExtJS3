@@ -170,11 +170,21 @@ Ext.extend(Test.Msg,Ext.Component,{ // TODO очень сие спорная ш�
 });
 Ext.reg('test-msg',Test.Msg);
 
-
+Test.util.JSONReader = function(config) {
+    config = config || {};
+    Ext.applyIf(config,{
+        successProperty:'success'
+        ,totalProperty: 'total'
+        ,root: 'data'
+    });
+    Test.util.JSONReader.superclass.constructor.call(this,config,['id','msg']);
+};
+Ext.extend(Test.util.JSONReader,Ext.data.JsonReader);
+Ext.reg('test-json-reader',Test.util.JSONReader);
 
 
 Ext.onReady(function() {
-   // Test.util.JSONReader = Test.load({ xtype: 'modx-json-reader' });
+    Test.util.JSONReader = Ext.ComponentMgr.create({ xtype: 'test-json-reader' });
     Test.form.Handler = Ext.ComponentMgr.create({ xtype: 'test-form-handler' });
     Test.msg = Ext.ComponentMgr.create({ xtype: 'test-msg' });
 });

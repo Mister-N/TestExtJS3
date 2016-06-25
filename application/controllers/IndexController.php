@@ -21,8 +21,8 @@ class IndexController extends Zend_Controller_Action
 //        echo ':(';
 //		$this->view->content = '<h1>I LOVE ZEND FRAMEWORK!</h1>';
 //
-        $page = $modelPages->getUser($pageId);
-        $this->view->page = $page->name;
+//        $page = $modelPages->getUser($pageId);
+//        $this->view->page = $page->name;
 	   // action body
     }
 

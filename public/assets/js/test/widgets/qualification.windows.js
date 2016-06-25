@@ -1,12 +1,12 @@
 /**
- * Created by Администратор on 21.06.16.
+ * Created by Администратор on 25.06.16.
  */
-Test.window.CreateUser = function (config) {
+Test.window.CreateQualification = function (config) {
     config = config || {};
-    config.id = config.id || 'test-users-window-create';
+    config.id = config.id  || 'test-qualification-window-create';
 
     Ext.applyIf(config, {
-        title: 'Добавить юзера.',
+        title: 'Добавить город.',
         width: 550,
         autoHeight: true,
         //url: test.config.connector_url,
@@ -18,9 +18,9 @@ Test.window.CreateUser = function (config) {
             }, scope: this
         }]
     });
-    Test.window.CreateUser.superclass.constructor.call(this, config);
+    Test.window.CreateQualification.superclass.constructor.call(this, config);
 };
-Ext.extend(Test.window.CreateUser, Test.Window, {
+Ext.extend(Test.window.CreateQualification, Test.Window, {
 
     getFields: function (config) {
         return [{
@@ -49,10 +49,10 @@ Ext.extend(Test.window.CreateUser, Test.Window, {
     }
 
 });
-Ext.reg('test-user-window-create', Test.window.CreateUser);
+Ext.reg('test-qualification-window-create', Test.window.CreateQualification);
 
 
-Test.window.UpdateUser = function (config) {
+Test.window.UpdateQualification = function (config) {
     config = config || {};
     if (!config.id) {
         config.id = 'test-item-window-update';
@@ -69,9 +69,9 @@ Test.window.UpdateUser = function (config) {
             }, scope: this
         }]
     });
-    Test.window.UpdateUser.superclass.constructor.call(this, config);
+    Test.window.UpdateQualification.superclass.constructor.call(this, config);
 };
-Ext.extend(Test.window.UpdateUser, Test.Window, {
+Ext.extend(Test.window.UpdateQualification, Test.Window, {
 
     getFields: function (config) {
         return [{
@@ -85,15 +85,8 @@ Ext.extend(Test.window.UpdateUser, Test.Window, {
             id: config.id + '-name',
             anchor: '99%',
             allowBlank: false,
-        }, {
-            xtype: 'test-combo-users-qualification',
-            fieldLabel: 'Квалификация',
-            name: 'qualification_id',
-            id: config.id + '-qualification_id',
-            anchor: '99%',
-            allowBlank: false,
         }];
     }
 
 });
-Ext.reg('test-item-window-update', Test.window.UpdateUser);
+Ext.reg('test-qualification-window-update', Test.window.UpdateQualification);

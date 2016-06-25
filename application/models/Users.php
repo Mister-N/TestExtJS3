@@ -16,15 +16,19 @@
      * @return array
      */
 
-    public function getUser($usersId)
+    public function getItem($usersId)
     {
-        $select = $this->select()->where('user_id = ?', (int) $usersId)->from($this, ['user_id as id','name']);
+        $select = $this->select()->where('user_id = ?', (int) $usersId)->from($this, ['user_id as id','name','qualification_id']);
         $result = $this->fetchRow($select);
         return $result;
     }
      public function getAll($queryParams)
      {
-         $select = $this->select()->limit($queryParams['limit'], $queryParams['offset']); // добавляем в запрос значения, которые не нужны в функции $this->getCount()
+         $queryParams['sort'] = $queryParams['sort'] == 'id' ? 'user_id' : $queryParams['sort']; // ну да, есть неудобства в переименовании.
+
+         $select = $this->select()
+             ->limit($queryParams['limit'], $queryParams['offset'])
+             ->order( $queryParams['sort'].' '.$queryParams['dir'] ); // добавляем в запрос значения, которые не нужны в функции $this->getCount()
          $select = $this->prepareQueryForAll($queryParams,$select);
 
          return $this->fetchAll($select)->toArray();

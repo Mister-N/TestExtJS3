@@ -7,7 +7,7 @@
      * @var string
      */
     protected $_name = 'qualification';
-     public function getUser($qualificationId)
+     public function getItem($qualificationId)
      {
          $select = $this->select()->where('qualification_id = ?', (int) $qualificationId)->from($this, ['qualification_id as id','name']);
          $result = $this->fetchRow($select);
@@ -15,7 +15,15 @@
      }
      public function getAll($queryParams)
      {
-         $select = $this->select()->limit($queryParams['limit'], $queryParams['offset']); // добавляем в запрос значения, которые не нужны в функции $this->getCount()
+         $queryParams['sort'] = $queryParams['sort'] == 'id' ? 'qualification_id' : $queryParams['sort']; // ну да, есть неудобства в переименовании.
+
+         $select = $this->select()
+             ->from(['q' => 'qualification']
+                 , ['qualification_id as id','name']
+             )
+             ->limit($queryParams['limit'], $queryParams['offset'])
+             ->order( $queryParams['sort'].' '.$queryParams['dir'] );
+         ; // добавляем в запрос значения, которые не нужны в функции $this->getCount()
          $select = $this->prepareQueryForAll($queryParams,$select);
 
          return $this->fetchAll($select)->toArray();

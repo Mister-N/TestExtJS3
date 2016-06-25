@@ -3,7 +3,7 @@ var Test = function(config) {
     Test.superclass.constructor.call(this,config);
 };
 Ext.extend(Test,Ext.Component,{
-    page:{},window:{},grid:{},tree:{},panel:{},combo:{},config: {},view: {}, utils: {},msg:{},form: {}
+    page:{},window:{},grid:{},tree:{},panel:{},combo:{},config: {},view: {}, utils: {},msg:{},form: {},util: {}
 });
 
 Ext.reg('test',Test);

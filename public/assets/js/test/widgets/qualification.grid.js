@@ -42,7 +42,7 @@ Test.QualificationGrid = function(config) {
 Ext.extend(Test.QualificationGrid,Test.grid.Grid,{
     windows: {},
     getFields: function (config) {
-        return  ["id","name"];
+        return  ["id","name",'actions'];
     },
 
     getColumns: function (config) {
@@ -72,7 +72,7 @@ Ext.extend(Test.QualificationGrid,Test.grid.Grid,{
 
         var row = grid.getStore().getAt(rowIndex);
         var menu = Test.utils.getMenu(row.data['actions'], this, ids);
-        console.log('menu',menu);
+        console.log('menu',row.data);
         this.addContextMenuItem(menu);
     },
     getTopBar: function (config) {
@@ -134,7 +134,7 @@ Ext.extend(Test.QualificationGrid,Test.grid.Grid,{
             return false;
         }
         var id = this.menu.record.id;
-        var salf = this;
+
         Ext.Ajax.request({
             url: this.config.url,
             method: 'GET',
@@ -142,20 +142,21 @@ Ext.extend(Test.QualificationGrid,Test.grid.Grid,{
                 actionObj: 'get',
                 id: id
             },
+            scope: this,
             success: function(r) {
-                console.log('success salf',salf);
 
                  var w = Ext.ComponentMgr.create({
                     xtype: 'test-item-window-update',
                     url : salf.config.url,
                     id: Ext.id(),
                     record: r,
+                    scope: this,
                     listeners: {
                         success: {
                             fn: function () {
                                 console.log('this',this);
                                 this.refresh();
-                            }, scope: salf
+                            }, scope: this
                         }
                     }
                 });
