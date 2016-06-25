@@ -57,8 +57,9 @@ Ext.extend(Test.form.Handler,Ext.Component,{
         if (r && r.message !== undefined && r.message !== '') {
             this.showError(r.message);
         } else {
+            // TODO это надо доума довесть
+            Test.msg.alert('Ошибка!','Что-то пошло не так!',Test.msg.hide(),this);
             //Test.msg.hide();
-            Ext.Msg.alert('Ошибка','Что-то пошло не так!' );// TODO это надо доума довесть
         }
         return false;
     }
@@ -84,14 +85,97 @@ Test.Msg = function(config) {
     });
     Ext.MessageBox.minWidth = 200;
 };
-Ext.extend(Test.Msg,Ext.Component,{ // TODO дописать эту штуку.
+Ext.extend(Test.Msg,Ext.Component,{ // TODO очень сие спорная штука, стоит или нет её сюда тащить. Да, я думал, что она ненужна и Ext.Msg.alert вполне хватает, но решил все-таки нехай будет.
+    confirm: function(config) {
+        this.purgeListeners();
+        if (config.listeners) {
+            for (var i in config.listeners) {
+                var l = config.listeners[i];
+                this.addListener(i,l.fn,l.scope || this,l.options || {});
+            }
+        }
+        Ext.Msg.confirm(config.title || 'Предупреждение!',config.text,function(e) { // почему же сразу Ext.msg?
+            if (e == 'yes') {
 
+                Ext.Ajax.request({ // или все-таки сделать Test.Ajax.request ???
+                    url: config.url,
+                    params: config.params || {},
+                    scope: this,
+                    success: function(r) {
+                        this.fireEvent('success',r);
+
+                    }
+                    ,listeners: {
+                        'success': {
+                            fn: function (r) {
+                                console.log('success');
+                                this.fireEvent('success', r);
+                            }, scope: this
+                        }
+                        , 'failure': {
+                            fn: function (r) {
+                                console.log('failure');
+                                return this.fireEvent('failure', r);
+                            }, scope: this
+                        }
+                    }
+
+                });
+
+    } else {
+        this.fireEvent('cancel',config);
+}
+},this);
+    }
+
+    ,getWindow: function() {
+        return Ext.Msg.getDialog();
+    }
+
+    ,alert: function(title,text,fn,scope) {
+        fn = fn || Ext.emptyFn;
+        scope = scope || this;
+        Ext.Msg.alert(title,text,fn,scope);
+    }
+
+    ,status: function(opt) {
+        if (!MODx.stMsgCt) {
+            MODx.stMsgCt = Ext.DomHelper.insertFirst(document.body, {id:'test-status-message-ct'}, true);
+        }
+        MODx.stMsgCt.alignTo(document, 't-t');
+        var markup = this.getStatusMarkup(opt);
+        var m = Ext.DomHelper.overwrite(MODx.stMsgCt, {html:markup}, true);
+
+        var fadeOpts = {remove:true,useDisplay:true};
+        if (!opt.dontHide) {
+            if(!Ext.isIE8) {
+                m.pause(opt.delay || 1.5).ghost("t",fadeOpts);
+            } else {
+                fadeOpts.duration = (opt.delay || 1.5);
+                m.ghost("t",fadeOpts);
+            }
+        } else {
+            m.on('click',function() {
+                m.ghost('t',fadeOpts);
+            });
+        }
+
+    }
+    ,getStatusMarkup: function(opt) {
+        var mk = '<div class="test-status-msg">';
+        if (opt.title) { mk += '<h3>'+opt.title+'</h3>'; }
+        if (opt.message) { mk += '<span class="modx-smsg-message">'+opt.message+'</span>'; }
+        return mk+'</div>';
+    }
 });
 Ext.reg('test-msg',Test.Msg);
+
+
 
 
 Ext.onReady(function() {
    // Test.util.JSONReader = Test.load({ xtype: 'modx-json-reader' });
     Test.form.Handler = Ext.ComponentMgr.create({ xtype: 'test-form-handler' });
-    //Test.Msg = Test.Msg({ xtype: 'modx-msg' }); // TODO Очень тягомотная штука.
+    Test.msg = Ext.ComponentMgr.create({ xtype: 'test-msg' });
 });
+

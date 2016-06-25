@@ -8,9 +8,83 @@ Test.grid.Grid = function(config) {
     this._loadStore();
 
     Ext.applyIf(config, {
-
+        store: this.store
+        ,paging: (config.bbar ? true : false)
+        //,loadMask: true
+        ,loadMask: {msg:"Пожалуйста, подождите..."}
+        ,autoHeight: true
+        ,collapsible: true
+        ,stripeRows: true
+        ,header: false
+        ,cls: 'test-grid'
+        ,preventRender: true
+        ,preventSaveRefresh: true
+        ,showPerPage: true
+        ,stateful: false
+        ,menuConfig: {
+            defaultAlign: 'tl-b?'
+            ,enableScrolling: false
+        }
+        ,viewConfig: {
+            forceFit: true
+            ,enableRowBody: true
+            ,autoFill: true
+            ,showPreview: true
+            ,scrollOffset: 0
+            ,emptyText: config.emptyText || 'Пустота!'
+        }
 
     });
+    if (config.paging) {
+        var pgItms = config.showPerPage ? ['На странице :',{
+            xtype: 'textfield'
+            ,cls: 'x-tbar-page-size'
+            ,value: config.pageSize ||  20
+            ,listeners: {
+                'change': {fn:this.onChangePerPage,scope:this}
+                ,'render': {fn: function(cmp) {
+                    new Ext.KeyMap(cmp.getEl(), {
+                        key: Ext.EventObject.ENTER
+                        ,fn: this.blur
+                        ,scope: cmp
+                    });
+                },scope:this}
+            }
+        }] : [];
+        if (config.pagingItems) {
+            for (var i=0;i<config.pagingItems.length;i++) {
+                pgItms.push(config.pagingItems[i]);
+            }
+        }
+        Ext.applyIf(config,{
+            bbar: new Ext.PagingToolbar({
+                pageSize: config.pageSize ||  20
+                ,store: this.getStore()
+                ,displayInfo: true
+                ,items: pgItms
+            })
+        });
+    }
+    if (config.grouping) {
+        Ext.applyIf(config,{
+            view: new Ext.grid.GroupingView({
+                forceFit: true
+                ,scrollOffset: 0
+                ,groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "'
+                +(config.pluralText || _('records')) + '" : "'
+                +(config.singleText || _('record'))+'"]})'
+            })
+        });
+    }
+    if (config.tbar) {
+        for (var ix = 0;ix<config.tbar.length;ix++) {
+            var itm = config.tbar[ix];
+            if (itm.handler && typeof(itm.handler) == 'object' && itm.handler.xtype) {
+                itm.handler = this.loadWindow.createDelegate(this,[itm.handler],true);
+            }
+            if (!itm.scope) { itm.scope = this; }
+        }
+    }
     Test.grid.Grid.superclass.constructor.call(this,config);
     this._loadMenu(config);
     this.on('rowcontextmenu',this._showMenu,this);
@@ -121,6 +195,7 @@ Ext.extend(
                         };
                     }
 
+
                     this.menu.add({
                         id: options.id || Ext.id()
                         ,text: options.text
@@ -139,6 +214,15 @@ Ext.extend(
         },
         refresh: function() {
             this.getStore().reload();
+        }
+        ,onChangePerPage: function(tf,nv) {
+            if (Ext.isEmpty(nv)) return false;
+            nv = parseInt(nv);
+            this.getBottomToolbar().pageSize = nv;
+            this.store.load({params:{
+                start:0
+                ,limit: nv
+            }});
         }
     }
 );

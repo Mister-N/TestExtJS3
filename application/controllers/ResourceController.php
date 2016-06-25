@@ -14,19 +14,53 @@ class ResourceController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->_helper->viewRenderer->setNoRender(true);
+        //$this->_helper->viewRenderer->setNoRender(true);
 
 
     }
     function usersAction(){
+        $this->fakeRESTful(new Users());
+
+//        print_r( $request->getActionName() );
+//        print_r( $this->_getAllParams() );
+
+    }
+
+    private function getBtn($users){
+        if(!is_array($users)) return [];
+        foreach($users as $k=>$v){
+            $users[$k]['actions']  =  [
+                    [
+                    "cls" => "",
+                    "icon" => "icon icon-edit",
+                    "title" => "Обновить пользователя",
+                    "multiple"=> "Обновить пользователей ",
+                    "action" => "updateUser",
+                    "button" => false,
+                    "menu" => true
+                ],
+                [
+                    "cls"=> "",
+                    "icon"=> "icon icon-trash-o action-red",
+                    "title"=> "Удалить",
+                    "multiple"=> "Удалить пользователей ",
+                    "action"=>"removeUser",
+                    "button"=>false,
+                    "menu"=>true
+                ]
+            ];
+        }
+        return $users;
+    }
+    private function fakeRESTful($model){
         $action  = $this->_getParam('actionObj');
-        $request = $this->getRequest() ;
-        $model = new Users();
+
 
 //        print_r( $request->getActionName() );
 //        print_r( $this->_getAllParams() );
         switch($action) {
             case 'get':
+
                 $errorMsg = '';
                 $id  = $this->_getParam('id');
                 if(!empty($id)) {
@@ -50,7 +84,7 @@ class ResourceController extends Zend_Controller_Action
 
                     [
                         'success' => "false",
-                        'msg' => $errorMsg, // TODO подправить параметр, в котором передается id
+                        'message' => $errorMsg, // TODO подправить параметр, в котором передается id
                     ]
                     , JSON_UNESCAPED_UNICODE);
 
@@ -62,14 +96,29 @@ class ResourceController extends Zend_Controller_Action
                     'name'=>  $this->_getParam('name'),
                     'qualification_id'=> $this->_getParam('qualification_id')
                 ];
+                echo 'lklkl';
+                if( !empty($id) and false){
+                    if($model->update($data, 'user_id = ' . (int)$id) ) {
+                        echo json_encode(
+                            [
+                                'success' => "true",
+                                'message' => 'ок'
+                            ]
+                            , JSON_UNESCAPED_UNICODE);
+                        break;
+                    }
+                    else $msgEroor = 'Ошибка при обновлении пользователя.';
 
-                if( !empty($id) AND  $model->update($data, 'user_id = ' . (int)$id) )
-                    echo json_encode(
-                        [
-                            'success' => "true",
-                            'msg' => 'ок'
-                        ]
-                        , JSON_UNESCAPED_UNICODE);
+                }
+                else $msgEroor = 'Не указан id';
+
+                echo json_encode(
+
+                    [
+                        'success' => "false",
+                        'message' => $msgEroor, // TODO подправить параметр, в котором передается id
+                    ]
+                    , JSON_UNESCAPED_UNICODE);
                 break;
             case 'POST':
 
@@ -81,14 +130,51 @@ class ResourceController extends Zend_Controller_Action
                     echo json_encode(
                         [
                             'success' => "true",
-                            'msg' => 'ок'
+                            'message' => 'ок'
                         ]
                         , JSON_UNESCAPED_UNICODE);
                 break;
-            default:
+            case 'DELETE':
+                $message ='ок';
+                $success = true;
+                $ids = $this->_getParam('ids');
 
-                $count = $model->getCount();
-                $users = $this->getBtn( $model->getAll() );
+                if($ids = json_decode($ids) AND !empty($ids) AND is_array($ids)){
+                    foreach($ids as $id){
+                        print_r($id);
+                        if(!$model->delete('user_id = ' . (int)$id)) {
+                            $message += ' Не удалось удалить юзера с id ' . $id;
+                            $success = false;
+                        }
+                        $message = 'Не удалось удалить пользователя.';
+                        $success = false;
+                    }
+                }
+                else{
+                    $message = 'Не указан id';
+                    $success = false;
+                }
+
+                echo json_encode(
+                    [
+                        'success' => $success,
+                        'message' => $message,
+                    ]
+                    , JSON_UNESCAPED_UNICODE);
+                break;
+            default:
+                $queryParams = [];
+                $queryParams['query'] = $this->_getParam('query');
+                $queryParams['limit'] = $this->_getParam('limit');
+                $queryParams['offset'] = $this->_getParam('start');
+                $queryParams['sort'] =  empty($this->_getParam('sort'))? 'id' : $this->_getParam('sort');
+
+                $users = $this->getBtn($model->getAll($queryParams));
+                $count = $model->getCount($queryParams);
+
+
+
+
                 $out = [
                     'total'=> $count,
                     'success' => "true", // и как же отловить ошибки запроса модели?
@@ -98,26 +184,6 @@ class ResourceController extends Zend_Controller_Action
                 echo json_encode($out, JSON_UNESCAPED_UNICODE);
 
         }
-
-
-//		$pageId = $this->_getParam('pageId');
-    }
-
-    private function getBtn($users){
-        if(!is_array($users)) return [];
-        foreach($users as $k=>$v){
-            $users[$k]['actions']  =  [
-                    [
-                    "cls" => "",
-                    "icon" => "icon icon-edit",
-                    "title" => "Update Item",
-                    "action" => "updateUser",
-                    "button" => true,
-                    "menu" => true
-                ]
-            ];
-        }
-        return $users;
     }
 }
 
