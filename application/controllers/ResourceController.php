@@ -3,6 +3,7 @@
 
 require_once('Users.php');
 require_once('Qualification.php');
+require_once('City.php');
 
 
 class ResourceController extends Zend_Controller_Action
@@ -20,6 +21,7 @@ class ResourceController extends Zend_Controller_Action
 
     }
     function usersAction(){
+        $this->_helper->viewRenderer->setNoRender(true);
         $params = [
             'actions'  =>  [
                 [
@@ -51,7 +53,7 @@ class ResourceController extends Zend_Controller_Action
 
     }
     function qualificationAction(){
-
+        $this->_helper->viewRenderer->setNoRender(true);
         $params = [
             'actions'  =>  [
                                 [
@@ -77,9 +79,40 @@ class ResourceController extends Zend_Controller_Action
             ];
         $this->fakeRESTful(new Qualification(),$params);
 
+    }
+    function cityAction(){
+        $this->_helper->viewRenderer->setNoRender(true);
+        $params = [
+            'actions'  =>  [
+                                [
+                                    "cls" => "",
+                                    "icon" => "icon icon-edit",
+                                    "title" => "Обновить город",
+                                   // "multiple"=> "Обновить образования ",
+                                    "action" => "updateCity",
+                                    "button" => false,
+                                    "menu" => true
+                                ],
+                                [
+                                    "cls"=> "",
+                                    "icon"=> "icon icon-trash-o action-red",
+                                    "title"=> "Удалить",
+                                    "multiple"=> "Удалить (?)образовния",
+                                    "action"=>"removeCity",
+                                    "button"=>false,
+                                    "menu"=>true
+                                ]
+                            ]
+            ,'data' =>     [
+                                'name'=> $this->_getParam('name'),
+                                'city_id'=> $this->_getParam('id')
+                            ]
+            ,'dataIndex'=>  'city_id'
 
-//        print_r( $request->getActionName() );
-//        print_r( $this->_getAllParams() );
+            ];
+        $this->fakeRESTful(new City(),$params);
+
+
 
     }
 
@@ -91,6 +124,7 @@ class ResourceController extends Zend_Controller_Action
         return $users;
     }
     private function fakeRESTful( Zend_Db_Table_Abstract $model, $config =[] ){
+
         $config = array_merge(
                             [
                                 'actions'  =>  [
@@ -119,6 +153,11 @@ class ResourceController extends Zend_Controller_Action
                                     'updateItemEmptyId'=>'Не указан id.',
                                     'deleteItem'=>' Не удалось удалить юзера с id '
                                 ]
+                                ,'data'=> [
+                                    'name'=> $this->_getParam('name'),
+                                    'qualification_id'=> $this->_getParam('qualification_id')
+                                ]
+                                ,['dataIndex'] => 'user_id'
                              ],
                             $config
                         );
@@ -164,13 +203,9 @@ class ResourceController extends Zend_Controller_Action
                 break;
             case 'PUT':
                 $id = $this->_getParam('id');
-                $data = [
-                    'name'=>  $this->_getParam('name'),
-                    'qualification_id'=> $this->_getParam('qualification_id')
-                ];
 
                 if( !empty($id)){
-                    if($model->update($data, 'user_id = ' . (int)$id) ) {
+                    if($model->update($config['data'], $config['dataIndex'].' = ' . (int)$id) ) {
                         echo json_encode(
                             [
                                 'success' => "true",
@@ -194,11 +229,8 @@ class ResourceController extends Zend_Controller_Action
                 break;
             case 'POST':
 
-                $data = [
-                    'name'=> $this->_getParam('name'),
-                    'qualification_id'=> $this->_getParam('qualification_id')
-                ];
-                if($model->insert($data))
+
+                if($model->insert($config['data']))
                     echo json_encode(
                         [
                             'success' => "true",
@@ -213,7 +245,7 @@ class ResourceController extends Zend_Controller_Action
 
                 if($ids = json_decode($ids) AND !empty($ids) AND is_array($ids)){
                     foreach($ids as $id){
-                        if(!$model->delete('user_id = ' . (int)$id)) {
+                        if(!$model->delete($config['dataIndex'].' = ' . (int)$id)) {
                             $message .= $config['errors']['deleteItem'] . $id .'.';
                             $success = false;
                         }
@@ -255,7 +287,7 @@ class ResourceController extends Zend_Controller_Action
                 echo json_encode($out, JSON_UNESCAPED_UNICODE);
 
         }
-        $this->_helper->viewRenderer->setNoRender(true);
+
     }
 }
 

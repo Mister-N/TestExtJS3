@@ -18,7 +18,7 @@ Test.Tabs = function(config) {
         ,border: false
         ,autoScroll: true
         ,autoHeight: true
-        ,cls: 'modx-tabs'
+        ,cls: 'test-tabs'
     });
     Test.Tabs.superclass.constructor.call(this,config);
     this.config = config;
@@ -67,14 +67,27 @@ Test.panel.Home = function (config) {
                 title: 'Образование',
                 layout: 'anchor',
                 items: [{
-                    html: '<h2> Варианты образования наших плюзователей.</h2> ',
-                    cls: 'panel-desc',
-                }
-                 ,{
-                    xtype: 'test-qualification-grid',
-                    cls: 'main-wrapper',
-                }
-                ]
+                            html: '<h2> Варианты образования наших плюзователей.</h2> ',
+                            cls: 'panel-desc',
+                        }
+                         ,{
+                            xtype: 'test-qualification-grid',
+                            cls: 'main-wrapper',
+                        }
+                    ]
+            }
+             ,{
+                title: 'Города',
+                layout: 'anchor',
+                items: [{
+                            html: '<h2> Города проживания наших плюзователей.</h2> ',
+                            cls: 'panel-desc',
+                        }
+                         ,{
+                            xtype: 'test-city-grid',
+                            cls: 'main-wrapper',
+                        }
+                    ]
             }
             ]
         }
