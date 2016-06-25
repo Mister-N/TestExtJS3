@@ -51,7 +51,7 @@ Test.panel.Home = function (config) {
             border: true,
             hideMode: 'offsets',
             items: [{
-                title: 'Выкладка с юзерами',
+                title: 'Юзеры',
                 layout: 'anchor',
                 items: [{
                     html: '<h2> Наши пользователи</h2> ',
@@ -62,7 +62,21 @@ Test.panel.Home = function (config) {
                     cls: 'main-wrapper',
                 }
                 ]
-            }]
+            }
+             ,{
+                title: 'Образование',
+                layout: 'anchor',
+                items: [{
+                    html: '<h2> Варианты образования наших плюзователей.</h2> ',
+                    cls: 'panel-desc',
+                }
+                 ,{
+                    xtype: 'test-qualification-grid',
+                    cls: 'main-wrapper',
+                }
+                ]
+            }
+            ]
         }
         ]
     });

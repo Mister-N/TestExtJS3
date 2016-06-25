@@ -2,6 +2,7 @@
 
 
 require_once('Users.php');
+require_once('Qualification.php');
 
 
 class ResourceController extends Zend_Controller_Action
@@ -20,6 +21,16 @@ class ResourceController extends Zend_Controller_Action
     }
     function usersAction(){
         $this->fakeRESTful(new Users());
+
+
+//        print_r( $request->getActionName() );
+//        print_r( $this->_getAllParams() );
+
+    }
+    function qualificationAction(){
+
+        $this->fakeRESTful(new Qualification());
+
 
 //        print_r( $request->getActionName() );
 //        print_r( $this->_getAllParams() );
@@ -184,6 +195,7 @@ class ResourceController extends Zend_Controller_Action
                 echo json_encode($out, JSON_UNESCAPED_UNICODE);
 
         }
+        $this->_helper->viewRenderer->setNoRender(true);
     }
 }
 

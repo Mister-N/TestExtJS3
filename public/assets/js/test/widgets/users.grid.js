@@ -3,6 +3,8 @@
  */
 Test.UsersGrid = function(config) {
     config = config || {};
+    config.id = config.id || 'test-grid-users';
+
     Ext.applyIf(config, {
         title: 'Пользователи',
         viewConfig: {
@@ -85,6 +87,7 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
         this.addContextMenuItem(menu);
     },
     getTopBar: function (config) {
+        console.log('u-toolBar',config.id);
         return [{
             text: '<i class="icon icon-plus">&nbsp;</i>Создать',
             handler: this.createItem,
