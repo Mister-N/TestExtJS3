@@ -146,8 +146,8 @@ Ext.extend(Test.QualificationGrid,Test.grid.Grid,{
             success: function(r) {
 
                  var w = Ext.ComponentMgr.create({
-                    xtype: 'test-item-window-update',
-                    url : salf.config.url,
+                    xtype: 'test-qualification-window-update',
+                    url : this.config.url,
                     id: Ext.id(),
                     record: r,
                     scope: this,

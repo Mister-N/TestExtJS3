@@ -5,7 +5,8 @@ Test.Window = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         modal: false
-        ,layout: 'auto'
+        //,layout: 'auto'
+        ,layout: 'form'
         ,closeAction: 'hide'
         ,shadow: true
         ,resizable: true
@@ -44,6 +45,7 @@ Ext.extend(Test.Window,Ext.Window,{
         if (this.checkIfLoaded(this.config.record || null)) { return false; }
 
         var r = this.config.record;
+        console.log(r,'r');
         /* set values here, since setValue after render seems to be broken */
         if (this.config.fields) {
             var l = this.config.fields.length;
@@ -88,7 +90,7 @@ Ext.extend(Test.Window,Ext.Window,{
             ,bodyBorder: this.config.bodyBorder
             ,autoHeight: this.config.autoHeight
             ,anchor: '100% 100%'
-            //,errorReader: MODx.util.JSONReader
+            ,errorReader: Test.util.JSONReader
             ,defaults: this.config.formDefaults || {
                 msgTarget: this.config.msgTarget || 'under'
             }
@@ -96,7 +98,9 @@ Ext.extend(Test.Window,Ext.Window,{
             ,baseParams: this.config.baseParams || {}
             ,fileUpload: this.config.fileUpload || false
         });
-        return new Ext.FormPanel(config);
+        console.log('Ext.FormPanel',config);
+        return new Ext.form.FormPanel(config);
+        //return new Ext.FormPanel(config);// TODO по-идеи Ext.FormPanel это то же Ext.form.FormPanel. Вернуть Ext.FormPanel!
     }
     ,checkIfLoaded: function(r) {
         r = r || {};

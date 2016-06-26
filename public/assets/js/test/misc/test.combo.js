@@ -4,13 +4,13 @@ Test.combo.Qualification = function(config) {
         fields: ['id','name']
         ,url: '/resource/qualification'
         //,baseParams: { action: 'mgr/stream/getlist' }
-        ,name: 'qualification_id'
+        ,name: 'id'
         ,hiddenName: 'qualification_id'
         ,displayField: 'name'
-        ,valueField: 'qualification_id'
-        //,editable: true
+        ,valueField: 'id'
+        ,editable: true
         ,anchor: '99%'
-        ,pageSize: 10  // TODO ЭТА ШТУКА ДЕЛАЕТ НИШТЯК
+        ,pageSize: 10
 
     });
     Test.combo.Qualification.superclass.constructor.call(this,config);

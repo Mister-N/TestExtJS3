@@ -89,6 +89,19 @@ Test.panel.Home = function (config) {
                         }
                     ]
             }
+                ,{
+                title: 'Юзер в городе',
+                layout: 'anchor',
+                items: [{
+                            html: '<h2> Города проживания наших плюзователей.</h2> ',
+                            cls: 'panel-desc',
+                        }
+                         ,{
+                            xtype: 'test-users-itemselector',
+                            cls: 'main-wrapper',
+                        }
+                    ]
+            }
             ]
         }
         ]

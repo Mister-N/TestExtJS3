@@ -30,7 +30,15 @@ Ext.extend(Test.window.CreateUser, Test.Window, {
             id: config.id + '-name',
             anchor: '99%',
             allowBlank: false,
-        },
+        }
+        , {
+            xtype: 'test-combo-users-qualification',
+            fieldLabel: 'Квалификация',
+            name: 'qualification_id',
+            id: config.id + '-qualification_id',
+            anchor: '99%',
+            allowBlank: false,
+        }
         //    {
         //    xtype: 'textarea',
         //    fieldLabel: _('test_item_description'),
@@ -85,14 +93,16 @@ Ext.extend(Test.window.UpdateUser, Test.Window, {
             id: config.id + '-name',
             anchor: '99%',
             allowBlank: false,
-        }, {
-            xtype: 'test-combo-users-qualification',
-            fieldLabel: 'Квалификация',
-            name: 'qualification_id',
-            id: config.id + '-qualification_id',
-            anchor: '99%',
-            allowBlank: false,
-        }];
+        }
+            , {
+                xtype: 'test-combo-users-qualification',
+                fieldLabel: 'Квалификация',
+                name: 'qualification_id',
+                id: config.id + '-qualification_id',
+                anchor: '99%',
+                allowBlank: false,
+            }
+        ];
     }
 
 });
