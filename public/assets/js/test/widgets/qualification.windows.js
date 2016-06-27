@@ -58,7 +58,7 @@ Test.window.UpdateQualification = function (config) {
         config.id = 'test-item-window-update';
     }
     Ext.applyIf(config, {
-        title: 'Обновить юзера',
+        title: 'Обновить квалификацию',
         width: 550,
         autoHeight: true,
         action: 'PUT',

@@ -72,7 +72,7 @@ Ext.extend(Test.form.Handler,Ext.Component,{
         }
     }
 
-    ,closeError: function() { MODx.msg.hide(); }
+    ,closeError: function() { Test.msg.hide(); }
 });
 Ext.reg('test-form-handler',Test.form.Handler);
 Test.Msg = function(config) {
@@ -139,6 +139,7 @@ Ext.extend(Test.Msg,Ext.Component,{ // TODO очень сие спорная ш�
     }
 
     ,status: function(opt) {
+        // TODO че-то с этим делать надо.
         if (!MODx.stMsgCt) {
             MODx.stMsgCt = Ext.DomHelper.insertFirst(document.body, {id:'test-status-message-ct'}, true);
         }
@@ -164,7 +165,7 @@ Ext.extend(Test.Msg,Ext.Component,{ // TODO очень сие спорная ш�
     ,getStatusMarkup: function(opt) {
         var mk = '<div class="test-status-msg">';
         if (opt.title) { mk += '<h3>'+opt.title+'</h3>'; }
-        if (opt.message) { mk += '<span class="modx-smsg-message">'+opt.message+'</span>'; }
+        if (opt.message) { mk += '<span class="test-smsg-message">'+opt.message+'</span>'; }
         return mk+'</div>';
     }
 });

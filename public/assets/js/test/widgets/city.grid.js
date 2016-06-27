@@ -82,30 +82,30 @@ Ext.extend(Test.CityGrid,Test.grid.Grid,{
             handler: this.createItem,
             scope: this
         }, '->',
-            {
-            xtype: 'textfield',
-            name: 'query',
-            width: 200,
-            id: config.id + '-search-field',
-            emptyText: 'Введите название э... Вида образования.',
-            listeners: {
-                render: {
-                    fn: function (tf) {
-                        tf.getEl().addKeyListener(Ext.EventObject.ENTER, function () {
-                            this._doSearch(tf);
-                        }, this);
-                    }, scope: this
-                }
-            }
-        },
-            {
-            xtype: 'button',
-            id: config.id + '-search-clear',
-            text: '<i class="icon icon-times"></i>',
-            listeners: {
-                click: {fn: this._clearSearch, scope: this}
-            }
-        }
+        //    {
+        //    xtype: 'textfield',
+        //    name: 'query',
+        //    width: 200,
+        //    id: config.id + '-search-field',
+        //    emptyText: 'Введите название э... Вида образования.',
+        //    listeners: {
+        //        render: {
+        //            fn: function (tf) {
+        //                tf.getEl().addKeyListener(Ext.EventObject.ENTER, function () {
+        //                    this._doSearch(tf);
+        //                }, this);
+        //            }, scope: this
+        //        }
+        //    }
+        //},
+        //    {
+        //    xtype: 'button',
+        //    id: config.id + '-search-clear',
+        //    text: '<i class="icon icon-times"></i>',
+        //    listeners: {
+        //        click: {fn: this._clearSearch, scope: this}
+        //    }
+        //}
          ];
     },
     createItem: function (btn, e) {

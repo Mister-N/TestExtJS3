@@ -58,7 +58,7 @@ Test.window.UpdateCity = function (config) {
         config.id = 'test-item-window-update';
     }
     Ext.applyIf(config, {
-        title: 'Обновить юзера',
+        title: 'Обновить город',
         width: 550,
         autoHeight: true,
         action: 'PUT',

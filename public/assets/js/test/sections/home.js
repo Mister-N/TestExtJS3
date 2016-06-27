@@ -24,13 +24,13 @@ Test.Tabs = function(config) {
     this.config = config;
 };
 Ext.extend(Test.Tabs,Ext.TabPanel);
-Ext.reg('modx-tabs',Test.Tabs);
+Ext.reg('test-tabs',Test.Tabs);
 
 Test.panel.Home = function (config) {
     config = config || {};
     Ext.apply(config, {
 
-        baseCls: 'modx-formpanel',
+        baseCls: 'test-formpanel',
         renderTo: 'test',
         layout: 'anchor',
         /*
@@ -46,7 +46,7 @@ Test.panel.Home = function (config) {
             style: {margin: '15px 0;padding:10px'}
         },
             {
-            xtype: 'modx-tabs',
+            xtype: 'test-tabs',
             defaults: {border: false, autoHeight: true},
             border: true,
             hideMode: 'offsets',
@@ -89,19 +89,7 @@ Test.panel.Home = function (config) {
                         }
                     ]
             }
-                ,{
-                title: 'Юзер в городе',
-                layout: 'anchor',
-                items: [{
-                            html: '<h2> Города проживания наших плюзователей.</h2> ',
-                            cls: 'panel-desc',
-                        }
-                         ,{
-                            xtype: 'test-users-itemselector',
-                            cls: 'main-wrapper',
-                        }
-                    ]
-            }
+
             ]
         }
         ]

@@ -42,7 +42,7 @@ Test.UsersGrid = function(config) {
 Ext.extend(Test.UsersGrid,Test.grid.Grid,{
     windows: {},
     getFields: function (config) {
-        return  ["id","name","qualification_id", "city",'actions'];
+        return  ["id","name","qualification_id",'qualification_name', "city",'actions'];
     },
 
     getColumns: function (config) {
@@ -58,7 +58,7 @@ Ext.extend(Test.UsersGrid,Test.grid.Grid,{
             width: 200,
         }, {
             header: 'Образование',
-            dataIndex: 'qualification_id',
+            dataIndex: 'qualification_name',
             sortable: false,
             width: 250,
         }, {
