@@ -54,7 +54,8 @@ Ext.extend(Test.Window,Ext.Window,{
                 if (r[f.name]) {
                     if (f.xtype == 'checkbox' || f.xtype == 'radio') {
                         f.checked = r[f.name];
-                    } else {
+                    }
+                    else {
                         f.value = r[f.name];
                     }
                 }
@@ -98,9 +99,7 @@ Ext.extend(Test.Window,Ext.Window,{
             ,baseParams: this.config.baseParams || {}
             ,fileUpload: this.config.fileUpload || false
         });
-        console.log('Ext.FormPanel',config);
-        return new Ext.form.FormPanel(config);
-        //return new Ext.FormPanel(config);// TODO по-идеи Ext.FormPanel это то же Ext.form.FormPanel. Вернуть Ext.FormPanel!
+        return new Ext.FormPanel(config);
     }
     ,checkIfLoaded: function(r) {
         r = r || {};

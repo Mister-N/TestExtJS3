@@ -218,8 +218,13 @@ class fakeRESTful{
 class fakeRESTfulUsersCity extends fakeRESTful {
     public function defaultGet($config){
         $queryParams = [];
+        $user_id = $this->getParams('user_id');
+        if(!empty($user_id)){
+            $queryParams['user_id'] = $user_id;
+        }
 
-        $items = $this->model->getAll();
+
+        $items = $this->model->getAll($queryParams);
 
         $out = [
             //'total'=> $count,

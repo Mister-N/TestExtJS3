@@ -1,6 +1,51 @@
 /**
  * Created by Администратор on 21.06.16.
  */
+
+
+Test.window.User = function (config) {
+    Test.window.User.superclass.constructor.call(this, config);
+};
+Ext.extend(Test.window.User, Test.Window, {
+    _loadForm: function() {
+        if (this.checkIfLoaded(this.config.record || null)) { return false; }
+
+        var r = this.config.record;
+        Ext.decode(r.responseText).object.id;
+        /* set values here, since setValue after render seems to be broken */
+        if (this.config.fields) {
+            var l = this.config.fields.length;
+            for (var i=0;i<l;i++) {
+                var f = this.config.fields[i];
+                if(f.xtype == 'test-users-itemselector'){ // TODO сие костыль для того, чтобы получать id юзеров. По-хорошему надо контроллер править, но выкладка с окном у меня открыта, а выкладка с контроллером нет ))
+                    id = Ext.decode(r.responseText).object.id;
+                    if(id)
+                        f.user_id = id;
+                }
+                if (r[f.name]) {
+                    if (f.xtype == 'checkbox' || f.xtype == 'radio') {
+                        f.checked = r[f.name];
+                    }
+                    else {
+                        f.value = r[f.name];
+                    }
+                }
+            }
+        }
+        this.fp = this.createForm({
+            url: this.config.url
+            ,baseParams: this.config.baseParams || { actionObj: this.config.action || '' } // TODO параметр action может подхватываться, как экшн контроллера. Надо что-то придумать, чтобы небыло путаницы
+            ,items: this.config.fields || []
+        });
+        var w = this;
+        this.fp.getForm().items.each(function(f) {
+            f.on('invalid', function(){
+                w.doLayout();
+            });
+        });
+        this.renderForm();
+    }
+});
 Test.window.CreateUser = function (config) {
     config = config || {};
     config.id = config.id || 'test-users-window-create';
@@ -20,7 +65,7 @@ Test.window.CreateUser = function (config) {
     });
     Test.window.CreateUser.superclass.constructor.call(this, config);
 };
-Ext.extend(Test.window.CreateUser, Test.Window, {
+Ext.extend(Test.window.CreateUser, Test.window.User, {
 
     getFields: function (config) {
         return [{
@@ -57,7 +102,7 @@ Ext.extend(Test.window.CreateUser, Test.Window, {
     }
 
 });
-Ext.reg('test-user-window-create', Test.window.CreateUser);
+Ext.reg('test-user-window-create', Test.window.User);
 
 
 Test.window.UpdateUser = function (config) {
@@ -79,7 +124,7 @@ Test.window.UpdateUser = function (config) {
     });
     Test.window.UpdateUser.superclass.constructor.call(this, config);
 };
-Ext.extend(Test.window.UpdateUser, Test.Window, {
+Ext.extend(Test.window.UpdateUser, Test.window.User, {
 
     getFields: function (config) {
         return [{
@@ -101,6 +146,14 @@ Ext.extend(Test.window.UpdateUser, Test.Window, {
                 id: config.id + '-qualification_id',
                 anchor: '99%',
                 allowBlank: false,
+            },
+            {
+                xtype: 'test-users-itemselector',
+                cls: 'main-wrapper',
+                fieldLabel: 'Города',
+                id: config.id + '-itemselector',
+                name:'users_city',
+                anchor: '99%',
             }
         ];
     }

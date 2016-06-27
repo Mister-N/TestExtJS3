@@ -15,7 +15,7 @@
      }
      public function getAll($queryParams = [])
      {
-
+         if(empty($queryParams['user_id'])) return [];
          $select = $this->select()
              ->from(['uc' => 'users_city'])
              ->joinInner(
@@ -24,10 +24,9 @@
                  //,['user_id',]
 
              )
-             ->setIntegrityCheck(false)
-             //->where('users_city = '  . $queryParams['users_city'] . '%\'')
+             ->where('uc.user_id = '  . $queryParams['user_id'] )
+             ->setIntegrityCheck(false);
 
-         ;
 
          return $this->fetchAll($select)->toArray();
          //$sql->prepareStatementForSqlObject($select) $results = $statement->execute(); instead of $select->getSqlString()
