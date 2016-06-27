@@ -83,18 +83,6 @@ CREATE SEQUENCE city_city_id_seq
 ALTER TABLE public.city_city_id_seq OWNER TO postgres;
 
 --
--- Name: groups; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE groups (
-    user_id integer,
-    city_id integer
-);
-
-
-ALTER TABLE public.groups OWNER TO postgres;
-
---
 -- Name: qualification; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -147,18 +135,6 @@ CREATE TABLE users_city (
 ALTER TABLE public.users_city OWNER TO postgres;
 
 --
--- Name: users_city1; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
---
-
-CREATE TABLE users_city1 (
-    user_id integer,
-    city_id integer
-);
-
-
-ALTER TABLE public.users_city1 OWNER TO postgres;
-
---
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -204,15 +180,13 @@ SELECT pg_catalog.setval('auto_id_users', 4, true);
 -- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY city (city_id, name) FROM stdin;
-7	Оренбург
-8	Самара
-11	Краснодар
-12	Ебург
-13	Орск
-14	Бузулук
-15	тест б!
-\.
+INSERT INTO city VALUES (7, 'Оренбург');
+INSERT INTO city VALUES (8, 'Самара');
+INSERT INTO city VALUES (11, 'Краснодар');
+INSERT INTO city VALUES (12, 'Ебург');
+INSERT INTO city VALUES (13, 'Орск');
+INSERT INTO city VALUES (14, 'Бузулук');
+INSERT INTO city VALUES (15, 'тест б!');
 
 
 --
@@ -223,21 +197,11 @@ SELECT pg_catalog.setval('city_city_id_seq', 17, true);
 
 
 --
--- Data for Name: groups; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY groups (user_id, city_id) FROM stdin;
-\.
-
-
---
 -- Data for Name: qualification; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY qualification (qualification_id, name) FROM stdin;
-1	бла-бла
-2	test!
-\.
+INSERT INTO qualification VALUES (1, 'бла-бла');
+INSERT INTO qualification VALUES (2, 'test!');
 
 
 --
@@ -251,33 +215,21 @@ SELECT pg_catalog.setval('qualification_qualification_id_seq', 6, true);
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY users (user_id, name, qualification_id) FROM stdin;
-7	тест	1
-22	nt	1
-23	ффф	4
-6	тест!	1
-1	name	1
-2	test	2
-\.
+INSERT INTO users VALUES (7, 'тест', 1);
+INSERT INTO users VALUES (22, 'nt', 1);
+INSERT INTO users VALUES (23, 'ффф', 4);
+INSERT INTO users VALUES (1, 'name', 1);
+INSERT INTO users VALUES (2, 'test', 2);
+INSERT INTO users VALUES (6, 'Имя фамилия', 1);
 
 
 --
 -- Data for Name: users_city; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY users_city (id, user_id, city_id) FROM stdin;
-1	1	7
-2	1	8
-3	2	8
-\.
-
-
---
--- Data for Name: users_city1; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY users_city1 (user_id, city_id) FROM stdin;
-\.
+INSERT INTO users_city VALUES (1, 1, 7);
+INSERT INTO users_city VALUES (2, 1, 8);
+INSERT INTO users_city VALUES (3, 2, 8);
 
 
 --
